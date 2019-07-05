@@ -1,17 +1,27 @@
-    package main
-    
-    
-    import (
-        "fmt"
-        "net/http"
-    )
+package main
 
+import (
+	"net/http"
+	"strings"
+)
 
-    func main(){
-        http.HandleFunc("/", manejador)
-        http.ListenAndServe(":8080", nil)
-    }
+func sayHello(w http.ResponseWriter, r *http.Request) {
+	message := r.URL.Path
+	message = strings.TrimPrefix(message, "/")
+	message = "Hello " + message
 
-    func manejador(w http.ResponseWriter, r *http.Request){
-        fmt.Fprintf(w,"Hola, %s, ¡este es un servidor!", r.URL.Path)
-      }
+	w.Write([]byte(message))
+}
+
+func testw(w http.ResponseWriter, r *http.Request) {
+	message := " Hola Mundo test "
+	w.Write([]byte(message))
+}
+
+func main() {
+	http.HandleFunc("/", sayHello)
+	http.HandleFunc("/test", testw)
+	if err := http.ListenAndServe(":8081", nil); err != nil {
+		panic(err)
+	}
+}
