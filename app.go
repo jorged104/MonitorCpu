@@ -1,5 +1,17 @@
     package main
-    import "log"
+    
+    
+    import (
+        "fmt"
+        "net/http"
+    )
+
+
     func main(){
-     log.Printf("Received request for ");
+        http.HandleFunc("/", manejador)
+        http.ListenAndServe(":8080", nil)
     }
+
+    func manejador(w http.ResponseWriter, r *http.Request){
+        fmt.Fprintf(w,"Hola, %s, ¡este es un servidor!", r.URL.Path)
+      }
