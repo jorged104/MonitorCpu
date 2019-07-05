@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Compilador</title>
+    <script src="../javascripts/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="../stylesheets/bootstrap.min.css">
+    <script src="../javascripts/coneccion.js"></script>
+    <script type="text/javascript" src="../javascripts/canvasjs.min.js"></script>
+    <script>
+            window.onload = function () {
+                var mensajec = $("#mensaje");
+            var dps = [];
+            var chart = new CanvasJS.Chart("chartContainer", {
+                exportEnabled: true,
+                title :{
+                    text: "CPU Chart"
+                },
+                axisY: {
+                    includeZero: false
+                },
+                data: [{
+                    type: "spline",
+                    markerSize: 0,
+                    dataPoints: dps 
+                }]
+            });
+            
+            var xVal = 0;
+            var yVal = 100;
+            var updateInterval = 1000;
+            var dataLength = 50; // number of dataPoints visible at any point
+            var xActual = 0;
+            var updateChart = function () {
+                    
+                $.ajax({
+                    url: 'getCpu',
+                    dataType: 'json',
+                    type: 'get',
+                    contentType: 'application/x-www-form-urlencoded',
+                    data: 'hola',
+                    success: function( data, textStatus, jQxhr ){
+                        dps.push({
+                        x: xActual,
+                        y: data.ram
+                    });  
+                    mensajec.html(`Uso CPU ${data.ram}%`)    
+                }
+
+                });
+                    xActual++              
+                if (dps.length > dataLength) {
+                    dps.shift();
+                }
+                chart.render();
+            };
+            
+            updateChart(dataLength); 
+            setInterval( function(){ updateChart() } , updateInterval); 
+            
+            }
+            </script>
+</head>
+<body>
+
+ <nav class="navbar navbar-dark bg-primary p-2">
+        <div class="container" class="navbar-brand">
+                <a href="panel"> Panel </a>
+                <a href="panel/ram"> RAM </a>
+                <a href="panel/cpu"> CPU </a>
+            </div>
+ </nav>
+ <div class="container p-3">
+        <div class="row p-5" >
+                <p id="mensaje"></p>
+            </div>
+ </div>
+
+<div class="container p-3">
+    <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+</div>
+
+</body>
+</html>

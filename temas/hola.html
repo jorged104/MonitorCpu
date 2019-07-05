@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Compilador</title>
+    <script src="javascripts/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <script src="javascripts/coneccion.js"></script>
+
+</head>
+<body>
+
+ <nav class="navbar navbar-dark bg-primary p-2">
+  <div class="container" class="navbar-brand">
+      <a href="panel"> Panel </a>
+      <a href="panel/ram"> RAM </a>
+      <a href="panel/cpu"> CPU </a>
+  </div>
+ </nav>
+
+<div class="container p-3">
+    <div class="row p-5" >
+        <p id="mensaje"></p>
+    </div>
+
+    <div class="row p-5" >
+        <table id="tabla" class="table">
+        <thead>
+        <th>PID</th>
+        <th>USUARIO</th>
+        <th>ESTADO</th>
+        <th>% RAM </th>
+        <th>Nombre</th>
+        <th>Kill</th>
+        </thead>
+
+            <tbody id="cuerpo_tabla">
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
