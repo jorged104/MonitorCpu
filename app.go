@@ -7,11 +7,17 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
+
+	"github.com/shirou/gopsutil/cpu"
 )
 
 type Profile struct {
 	Total     float64
 	Consumida float64
+}
+type CPU struct {
+	Total float64
 }
 
 func sayHello(w http.ResponseWriter, r *http.Request) {
@@ -62,16 +68,33 @@ func getRAM(w http.ResponseWriter, r *http.Request) {
 
 	u := Profile{totalMem, porsentajeMem}
 	js, _ := json.Marshal(u)
-	//mensajec.html(`Ram Total: ${data.total} MB Ram Consumida : ${data.consumida} MB  un ${data.ram}%`)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }
 
+func getCPU(w http.ResponseWriter, r *http.Request) {
+	percent, _ := cpu.Percent(time.Second, false)
+	u := CPU{percent[0]}
+	js, _ := json.Marshal(u)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
+func viewRam(w http.ResponseWriter, r *http.Request) {
+	bytesLeidos, err := ioutil.ReadFile("temas/ram.html")
+	if err != nil {
+		fmt.Printf("Error leyendo archivo: %v", err)
+	}
+	contenido := string(bytesLeidos)
+	w.Write([]byte(contenido))
+}
+
 func main() {
-	//http.HandleFunc("/", sayHello)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/test", testw)
-	http.HandleFunc("/panel/ram", getRAM)
+	http.HandleFunc("/getRam", getRAM)
+	http.HandleFunc("/getCPU", getCPU)
+	http.HandleFunc("/ram", viewRam)
 	if err := http.ListenAndServe(":8081", nil); err != nil {
 		panic(err)
 	}

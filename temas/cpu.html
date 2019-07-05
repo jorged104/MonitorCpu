@@ -20,7 +20,7 @@
                     includeZero: false
                 },
                 data: [{
-                    type: "spline",
+                    type: "line",
                     markerSize: 0,
                     dataPoints: dps 
                 }]
@@ -42,9 +42,9 @@
                     success: function( data, textStatus, jQxhr ){
                         dps.push({
                         x: xActual,
-                        y: data.ram
+                        y: data.Total
                     });  
-                    mensajec.html(`Uso CPU ${data.ram}%`)    
+                    mensajec.html(`Uso CPU ${data.Total}%`)    
                 }
 
                 });
@@ -63,14 +63,12 @@
 </head>
 <body>
 
- <nav class="navbar navbar-dark bg-primary p-2">
-        <div class="container" class="navbar-brand">
-                <a href="panel"> Panel </a>
-                <a href="panel/ram"> RAM </a>
-                <a href="panel/cpu"> CPU </a>
-            </div>
- </nav>
- <div class="container p-3">
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-2">
+        <a href="/" class="navbar-brand" > Panel </a>
+        <a href="/ram" class="navbar-brand" > RAM </a>           
+</nav>
+
+  <div class="container p-3">
         <div class="row p-5" >
                 <p id="mensaje"></p>
             </div>
