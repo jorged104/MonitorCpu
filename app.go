@@ -89,12 +89,22 @@ func viewRam(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(contenido))
 }
 
+func viewCPU(w http.ResponseWriter, r *http.Request) {
+	bytesLeidos, err := ioutil.ReadFile("temas/cpu.html")
+	if err != nil {
+		fmt.Printf("Error leyendo archivo: %v", err)
+	}
+	contenido := string(bytesLeidos)
+	w.Write([]byte(contenido))
+}
+
 func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/test", testw)
 	http.HandleFunc("/getRam", getRAM)
 	http.HandleFunc("/getCPU", getCPU)
 	http.HandleFunc("/ram", viewRam)
+	http.HandleFunc("/", viewCPU)
 	if err := http.ListenAndServe(":8081", nil); err != nil {
 		panic(err)
 	}

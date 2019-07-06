@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Compilador</title>
-    <script src="../javascripts/jquery-3.4.1.min.js"></script>
-    <link rel="stylesheet" href="../stylesheets/bootstrap.min.css">
-    <script src="../javascripts/coneccion.js"></script>
-    <script type="text/javascript" src="../javascripts/canvasjs.min.js"></script>
+    <title>CPU</title>
+    <script src="/static/javascripts/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="/static//stylesheets/bootstrap.min.css">
+    <script src="/static/javascripts/coneccion.js"></script>
+    <script type="text/javascript" src="/static/javascripts/canvasjs.min.js"></script>
     <script>
             window.onload = function () {
                 var mensajec = $("#mensaje");
@@ -34,7 +34,7 @@
             var updateChart = function () {
                     
                 $.ajax({
-                    url: 'getCpu',
+                    url: 'getCPU',
                     dataType: 'json',
                     type: 'get',
                     contentType: 'application/x-www-form-urlencoded',
